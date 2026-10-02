@@ -1,0 +1,656 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contextvault.local/schemas/domain/common.schema.json",
+  "title": "ContextVault Common Domain Types",
+  "type": "object",
+  "$defs": {
+    "schemaVersion": {
+      "const": "1.0"
+    },
+    "rootId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+    },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "sourceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "rootId", "path"],
+      "properties": {
+        "kind": {
+          "const": "workspace_file"
+        },
+        "rootId": {
+          "$ref": "#/$defs/rootId"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      }
+    },
+    "sourceId": {
+      "type": "string",
+      "pattern": "^cv_src_[A-Za-z0-9_-]{16,128}$"
+    },
+    "sessionId": {
+      "type": "string",
+      "pattern": "^cv_ses_[A-Za-z0-9_-]{16,128}$"
+    },
+    "envelopeId": {
+      "type": "string",
+      "pattern": "^cv_env_[A-Za-z0-9_-]{16,128}$"
+    },
+    "correlationId": {
+      "type": "string",
+      "pattern": "^cv_corr_[A-Za-z0-9_-]{16,128}$"
+    },
+    "sourceDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "capabilityToken": {
+      "type": "string",
+      "pattern": "^cv1_[A-Za-z0-9_-]{43,512}$"
+    },
+    "isoTimestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sensitivity": {
+      "enum": ["public", "internal", "confidential", "restricted", "prohibited"]
+    },
+    "secretRisk": {
+      "enum": ["none", "suspected", "confirmed", "unknown"]
+    },
+    "selectorKind": {
+      "enum": ["chunk", "json_node", "line_range"]
+    },
+    "sourceLocator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "value"],
+      "properties": {
+        "kind": {
+          "enum": [
+            "line",
+            "line_range",
+            "json_pointer",
+            "symbol",
+            "row",
+            "row_range",
+            "event",
+            "byte_range"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        }
+      }
+    },
+    "omission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["omissionId", "locator", "reason", "itemCount", "retrievable"],
+      "properties": {
+        "omissionId": {
+          "type": "string",
+          "pattern": "^cv_omit_[A-Za-z0-9_-]{8,128}$"
+        },
+        "locator": {
+          "$ref": "#/$defs/sourceLocator"
+        },
+        "reason": {
+          "enum": ["budget", "duplicate", "policy", "unsupported"]
+        },
+        "itemCount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "retrievable": {
+          "const": false
+        }
+      }
+    },
+    "retrievalSelectorKind": {
+      "enum": ["chunk", "json_node", "line_range"]
+    },
+    "retrievalSelector": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "chunkId"],
+          "properties": {
+            "kind": {
+              "const": "chunk"
+            },
+            "chunkId": {
+              "type": "string",
+              "pattern": "^cv_chunk_[A-Za-z0-9_-]{8,128}$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "nodeId"],
+          "properties": {
+            "kind": {
+              "const": "json_node"
+            },
+            "nodeId": {
+              "type": "string",
+              "pattern": "^cv_node_[A-Za-z0-9_-]{1,128}$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "startLine", "endLine"],
+          "properties": {
+            "kind": {
+              "const": "line_range"
+            },
+            "startLine": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "endLine": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            }
+          }
+        }
+      ]
+    },
+    "retrievalGrantRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowedSelectorTypes", "maxBytes", "ttlSeconds"],
+      "properties": {
+        "allowedSelectorTypes": {
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/$defs/retrievalSelectorKind"
+          }
+        },
+        "maxBytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1048576
+        },
+        "ttlSeconds": {
+          "type": "integer",
+          "minimum": 60,
+          "maximum": 7200
+        }
+      }
+    },
+    "retrievalGrantMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capability", "expiresAt", "allowedSelectorTypes", "maxBytes"],
+      "properties": {
+        "capability": {
+          "$ref": "#/$defs/capabilityToken"
+        },
+        "expiresAt": {
+          "$ref": "#/$defs/isoTimestamp"
+        },
+        "allowedSelectorTypes": {
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/$defs/retrievalSelectorKind"
+          }
+        },
+        "maxBytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1048576
+        }
+      }
+    },
+    "retrievalLocator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "value"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "value": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 512
+        }
+      }
+    },
+    "verifyCheck": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind"],
+          "properties": {
+            "kind": {
+              "const": "source_freshness"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "chunkId"],
+          "properties": {
+            "kind": {
+              "const": "chunk_integrity"
+            },
+            "chunkId": {
+              "type": "string",
+              "pattern": "^cv_chunk_[A-Za-z0-9_-]{8,128}$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind"],
+          "properties": {
+            "kind": {
+              "const": "provenance_consistency"
+            }
+          }
+        }
+      ]
+    },
+    "verificationCheckResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "status", "reasonCode"],
+      "properties": {
+        "kind": {
+          "enum": ["source_freshness", "chunk_integrity", "provenance_consistency"]
+        },
+        "chunkId": {
+          "type": "string",
+          "pattern": "^cv_chunk_[A-Za-z0-9_-]{8,128}$"
+        },
+        "status": {
+          "enum": ["valid", "stale", "invalid", "unavailable"]
+        },
+        "reasonCode": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        }
+      }
+    },
+    "sessionCounters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "activeEnvelopeCount",
+        "activeGrantCount",
+        "authorizedRootCount",
+        "serializedDerivedRecordBytes",
+        "provenanceRecordsRetained",
+        "successfulRequests",
+        "failedRequests",
+        "envelopesRemovedByExpiry",
+        "envelopesRemovedByPurge",
+        "grantsRevoked",
+        "purgeIntentsConsumed"
+      ],
+      "properties": {
+        "activeEnvelopeCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 64
+        },
+        "activeGrantCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 64
+        },
+        "authorizedRootCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "serializedDerivedRecordBytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4194304
+        },
+        "provenanceRecordsRetained": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 32
+        },
+        "successfulRequests": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "failedRequests": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "envelopesRemovedByExpiry": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "envelopesRemovedByPurge": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "grantsRevoked": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "purgeIntentsConsumed": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "safeError": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message", "correlationId", "retryable"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "pattern": "^CV_[A-Z0-9_]{3,80}$"
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "correlationId": {
+          "$ref": "#/$defs/correlationId"
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "safeDetails": {
+          "type": "object",
+          "maxProperties": 16,
+          "propertyNames": {
+            "pattern": "^[a-z][A-Za-z0-9]{0,63}$"
+          },
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "type": "string",
+                "maxLength": 256
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "errorResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "ok", "error"],
+      "properties": {
+        "schemaVersion": {
+          "$ref": "#/$defs/schemaVersion"
+        },
+        "ok": {
+          "const": false
+        },
+        "error": {
+          "$ref": "#/$defs/safeError"
+        }
+      }
+    },
+    "purgeIntentId": {
+      "type": "string",
+      "pattern": "^cv_pur_[A-Za-z0-9_-]{16,128}$"
+    },
+    "purgeTarget": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "envelopeId"],
+          "properties": {
+            "kind": {
+              "const": "envelope"
+            },
+            "envelopeId": {
+              "$ref": "#/$defs/envelopeId"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind"],
+          "properties": {
+            "kind": {
+              "const": "all_derived_state"
+            }
+          }
+        }
+      ]
+    },
+    "textChunkDescriptor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "chunkId",
+        "byteStart",
+        "byteEndExclusive",
+        "lineStart",
+        "lineEndExclusive",
+        "byteLength",
+        "chunkDigest",
+        "truncated"
+      ],
+      "properties": {
+        "chunkId": {
+          "type": "string",
+          "pattern": "^cv_chunk_[A-Za-z0-9_-]{8,128}$"
+        },
+        "byteStart": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 67108864
+        },
+        "byteEndExclusive": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 67108864
+        },
+        "lineStart": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "lineEndExclusive": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000001
+        },
+        "byteLength": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 67108864
+        },
+        "chunkDigest": {
+          "$ref": "#/$defs/sourceDigest"
+        },
+        "truncated": {
+          "type": "boolean"
+        }
+      }
+    },
+    "jsonNodeDescriptor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nodeId", "nodeType", "depth", "childCount", "pointer", "pointerRedacted"],
+      "properties": {
+        "nodeId": {
+          "type": "string",
+          "pattern": "^cv_node_[A-Za-z0-9_-]{1,128}$"
+        },
+        "nodeType": {
+          "enum": ["object", "array", "string", "number", "boolean", "null"]
+        },
+        "depth": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 64
+        },
+        "childCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 250000
+        },
+        "pointer": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 0,
+              "maxLength": 2048
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pointerRedacted": {
+          "type": "boolean"
+        }
+      }
+    },
+    "prepareEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "envelopeId",
+        "sourceId",
+        "sourceDigest",
+        "mediaType",
+        "bytes",
+        "sensitivity",
+        "secretRisk",
+        "preparationKind",
+        "disclosureClass",
+        "retrievalAllowed",
+        "lineCount",
+        "chunks",
+        "jsonNodes",
+        "omissions",
+        "structuralFingerprint",
+        "createdAt",
+        "expiresAt"
+      ],
+      "properties": {
+        "envelopeId": {
+          "$ref": "#/$defs/envelopeId"
+        },
+        "sourceId": {
+          "$ref": "#/$defs/sourceId"
+        },
+        "sourceDigest": {
+          "$ref": "#/$defs/sourceDigest"
+        },
+        "mediaType": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 67108864
+        },
+        "sensitivity": {
+          "$ref": "#/$defs/sensitivity"
+        },
+        "secretRisk": {
+          "$ref": "#/$defs/secretRisk"
+        },
+        "preparationKind": {
+          "enum": ["text_chunks", "json_structure", "minimal"]
+        },
+        "disclosureClass": {
+          "const": "RAW_CONTENT_FREE_WITH_BOUNDED_STRUCTURAL_METADATA_DISCLOSURE"
+        },
+        "retrievalAllowed": {
+          "type": "boolean"
+        },
+        "lineCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "chunks": {
+          "type": "array",
+          "maxItems": 1024,
+          "items": {
+            "$ref": "#/$defs/textChunkDescriptor"
+          }
+        },
+        "jsonNodes": {
+          "type": "array",
+          "maxItems": 1024,
+          "items": {
+            "$ref": "#/$defs/jsonNodeDescriptor"
+          }
+        },
+        "omissions": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/omission"
+          }
+        },
+        "structuralFingerprint": {
+          "$ref": "#/$defs/sourceDigest"
+        },
+        "createdAt": {
+          "$ref": "#/$defs/isoTimestamp"
+        },
+        "expiresAt": {
+          "$ref": "#/$defs/isoTimestamp"
+        },
+        "retrieval": {
+          "$ref": "#/$defs/retrievalGrantMetadata"
+        }
+      }
+    }
+  }
+}

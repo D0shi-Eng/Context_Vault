@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contextvault.local/schemas/mcp/inspect.output.schema.json",
+  "title": "contextvault_inspect output",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "ok", "source"],
+      "properties": {
+        "schemaVersion": {
+          "$ref": "../domain/common.schema.json#/$defs/schemaVersion"
+        },
+        "ok": {
+          "const": true
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceId",
+            "sourceDigest",
+            "mediaType",
+            "bytes",
+            "sensitivity",
+            "secretRisk",
+            "supportedSelectors",
+            "inspectedAt"
+          ],
+          "properties": {
+            "sourceId": {
+              "$ref": "../domain/common.schema.json#/$defs/sourceId"
+            },
+            "sourceDigest": {
+              "$ref": "../domain/common.schema.json#/$defs/sourceDigest"
+            },
+            "mediaType": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 255
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 67108864
+            },
+            "sensitivity": {
+              "$ref": "../domain/common.schema.json#/$defs/sensitivity"
+            },
+            "secretRisk": {
+              "$ref": "../domain/common.schema.json#/$defs/secretRisk"
+            },
+            "supportedSelectors": {
+              "type": "array",
+              "uniqueItems": true,
+              "maxItems": 3,
+              "items": {
+                "$ref": "../domain/common.schema.json#/$defs/selectorKind"
+              }
+            },
+            "inspectedAt": {
+              "$ref": "../domain/common.schema.json#/$defs/isoTimestamp"
+            }
+          }
+        }
+      }
+    },
+    {
+      "$ref": "../domain/common.schema.json#/$defs/errorResponse"
+    }
+  ]
+}

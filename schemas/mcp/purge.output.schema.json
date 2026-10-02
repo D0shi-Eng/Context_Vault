@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contextvault.local/schemas/mcp/purge.output.schema.json",
+  "title": "contextvault_purge output",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "ok", "purgeIntentId", "target", "summary", "expiresAt"],
+      "properties": {
+        "schemaVersion": {
+          "$ref": "../domain/common.schema.json#/$defs/schemaVersion"
+        },
+        "ok": {
+          "const": true
+        },
+        "purgeIntentId": {
+          "$ref": "../domain/common.schema.json#/$defs/purgeIntentId"
+        },
+        "target": {
+          "$ref": "../domain/common.schema.json#/$defs/purgeTarget"
+        },
+        "summary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["envelopeCount", "derivedBytes"],
+          "properties": {
+            "envelopeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 64
+            },
+            "derivedBytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4194304
+            }
+          }
+        },
+        "expiresAt": {
+          "$ref": "../domain/common.schema.json#/$defs/isoTimestamp"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "ok",
+        "targetKind",
+        "deletedEnvelopes",
+        "deletedDerivedBytes",
+        "revokedIntents"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "$ref": "../domain/common.schema.json#/$defs/schemaVersion"
+        },
+        "ok": {
+          "const": true
+        },
+        "targetKind": {
+          "enum": ["envelope", "all_derived_state"]
+        },
+        "deletedEnvelopes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 64
+        },
+        "deletedDerivedBytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4194304
+        },
+        "revokedIntents": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16
+        },
+        "revokedGrants": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 64
+        },
+        "removedProvenanceRecords": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 32
+        }
+      }
+    },
+    {
+      "$ref": "../domain/common.schema.json#/$defs/errorResponse"
+    }
+  ]
+}

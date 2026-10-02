@@ -1,0 +1,5 @@
+allowBuilds:
+  esbuild: true
+overrides:
+  typed-rest-client>qs: 6.16.0
+strictDepBuilds: true

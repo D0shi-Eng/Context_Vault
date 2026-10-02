@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contextvault.local/schemas/mcp/retrieve.output.schema.json",
+  "title": "contextvault_retrieve output",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "ok",
+        "envelopeId",
+        "sourceId",
+        "sourceDigest",
+        "selector",
+        "locator",
+        "byteCount",
+        "excerptDigest",
+        "content",
+        "truncated",
+        "hasMore"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "$ref": "../domain/common.schema.json#/$defs/schemaVersion"
+        },
+        "ok": {
+          "const": true
+        },
+        "envelopeId": {
+          "$ref": "../domain/common.schema.json#/$defs/envelopeId"
+        },
+        "sourceId": {
+          "$ref": "../domain/common.schema.json#/$defs/sourceId"
+        },
+        "sourceDigest": {
+          "$ref": "../domain/common.schema.json#/$defs/sourceDigest"
+        },
+        "selector": {
+          "$ref": "../domain/common.schema.json#/$defs/retrievalSelector"
+        },
+        "locator": {
+          "$ref": "../domain/common.schema.json#/$defs/retrievalLocator"
+        },
+        "byteCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1048576
+        },
+        "excerptDigest": {
+          "$ref": "../domain/common.schema.json#/$defs/sourceDigest"
+        },
+        "content": {
+          "type": "string",
+          "maxLength": 1048576
+        },
+        "truncated": {
+          "type": "boolean"
+        },
+        "hasMore": {
+          "type": "boolean"
+        }
+      }
+    },
+    {
+      "$ref": "../domain/common.schema.json#/$defs/errorResponse"
+    }
+  ]
+}

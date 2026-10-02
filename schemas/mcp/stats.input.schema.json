@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contextvault.local/schemas/mcp/stats.input.schema.json",
+  "title": "contextvault_stats input",
+  "type": "object",
+  "additionalProperties": false,
+  "maxProperties": 0
+}

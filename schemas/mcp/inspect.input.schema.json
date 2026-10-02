@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contextvault.local/schemas/mcp/inspect.input.schema.json",
+  "title": "contextvault_inspect input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["source"],
+  "properties": {
+    "source": {
+      "$ref": "../domain/common.schema.json#/$defs/sourceRef"
+    }
+  }
+}

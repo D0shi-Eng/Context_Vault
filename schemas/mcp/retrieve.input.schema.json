@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contextvault.local/schemas/mcp/retrieve.input.schema.json",
+  "title": "contextvault_retrieve input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["capability", "selector"],
+  "properties": {
+    "capability": {
+      "$ref": "../domain/common.schema.json#/$defs/capabilityToken"
+    },
+    "selector": {
+      "$ref": "../domain/common.schema.json#/$defs/retrievalSelector"
+    },
+    "maxBytes": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1048576,
+      "default": 262144
+    }
+  }
+}

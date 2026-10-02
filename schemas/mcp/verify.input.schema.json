@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contextvault.local/schemas/mcp/verify.input.schema.json",
+  "title": "contextvault_verify input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["envelopeId", "checks"],
+  "properties": {
+    "envelopeId": {
+      "$ref": "../domain/common.schema.json#/$defs/envelopeId"
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": {
+        "$ref": "../domain/common.schema.json#/$defs/verifyCheck"
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contextvault.local/schemas/mcp/prepare.output.schema.json",
+  "title": "contextvault_prepare output",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "ok", "envelope"],
+      "properties": {
+        "schemaVersion": {
+          "$ref": "../domain/common.schema.json#/$defs/schemaVersion"
+        },
+        "ok": {
+          "const": true
+        },
+        "envelope": {
+          "$ref": "../domain/common.schema.json#/$defs/prepareEnvelope"
+        }
+      }
+    },
+    {
+      "$ref": "../domain/common.schema.json#/$defs/errorResponse"
+    }
+  ]
+}

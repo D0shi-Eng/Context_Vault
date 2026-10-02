@@ -1,0 +1,67 @@
+{
+  "name": "contextvault",
+  "version": "0.0.0",
+  "description": "A local-first, evidence-preserving context control plane for AI clients.",
+  "license": "Apache-2.0",
+  "author": "D0shi-Eng",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "packageManager": "pnpm@11.19.0",
+  "exports": {
+    ".": "./dist/main.js"
+  },
+  "bin": {
+    "contextvault": "./dist/main.js"
+  },
+  "files": [
+    "dist",
+    "schemas",
+    "LICENSE",
+    "NOTICE",
+    "README.md",
+    "SECURITY.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "check": "prettier --check . && eslint . --max-warnings 0 && tsc --noEmit -p tsconfig.json && node scripts/check-architecture.mjs && node scripts/validate-schemas.mjs && node scripts/check-secrets.mjs && tsc -p tsconfig.build.json && vitest run --coverage",
+    "check:architecture": "node scripts/check-architecture.mjs",
+    "check:secrets": "node scripts/check-secrets.mjs",
+    "clean": "node scripts/clean.mjs",
+    "dev": "tsx src/main.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . --max-warnings 0",
+    "sbom": "node scripts/generate-sbom.mjs",
+    "start": "node dist/main.js",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:mutation": "stryker run",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "validate:schemas": "node scripts/validate-schemas.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@stryker-mutator/core": "10.0.0",
+    "@stryker-mutator/typescript-checker": "10.0.0",
+    "@stryker-mutator/vitest-runner": "10.0.0",
+    "@types/node": "24.13.3",
+    "@vitest/coverage-v8": "4.1.11",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "eslint": "10.10.0",
+    "fast-check": "4.9.0",
+    "prettier": "3.9.6",
+    "tsx": "4.23.13",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.70.0",
+    "vite": "7.3.6",
+    "vitest": "4.1.11"
+  }
+}

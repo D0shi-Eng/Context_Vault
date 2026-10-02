@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contextvault.local/schemas/mcp/verify.output.schema.json",
+  "title": "contextvault_verify output",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "ok", "envelopeId", "results", "verifiedAt"],
+      "properties": {
+        "schemaVersion": {
+          "$ref": "../domain/common.schema.json#/$defs/schemaVersion"
+        },
+        "ok": {
+          "const": true
+        },
+        "envelopeId": {
+          "$ref": "../domain/common.schema.json#/$defs/envelopeId"
+        },
+        "results": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "$ref": "../domain/common.schema.json#/$defs/verificationCheckResult"
+          }
+        },
+        "verifiedAt": {
+          "$ref": "../domain/common.schema.json#/$defs/isoTimestamp"
+        }
+      }
+    },
+    {
+      "$ref": "../domain/common.schema.json#/$defs/errorResponse"
+    }
+  ]
+}

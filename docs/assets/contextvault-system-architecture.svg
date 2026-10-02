@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="640" viewBox="0 0 940 640">
+  <rect width="940" height="640" fill="#0d1117"/>
+  <text x="470" y="34" font-family="Arial, Segoe UI, sans-serif" font-size="20" font-weight="bold" fill="#e6edf3" text-anchor="middle">ContextVault system architecture</text>
+  <text x="470" y="56" font-family="Arial, Segoe UI, sans-serif" font-size="12" fill="#8b949e" text-anchor="middle">dependency direction: adapters &#8594; use cases &#8594; domain policies &#8592; infrastructure adapters</text>
+
+  <!-- MCP client -->
+  <rect x="24" y="240" width="150" height="90" rx="8" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+  <text x="99" y="278" font-family="Arial, Segoe UI, sans-serif" font-size="14" font-weight="bold" fill="#e6edf3" text-anchor="middle">MCP client</text>
+  <text x="99" y="298" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">local AI host process</text>
+  <text x="99" y="312" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">untrusted caller</text>
+
+  <!-- stdio arrow -->
+  <line x1="174" y1="285" x2="238" y2="285" stroke="#58a6ff" stroke-width="2"/>
+  <polygon points="238,285 230,281 230,289" fill="#58a6ff"/>
+  <text x="206" y="266" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#58a6ff" text-anchor="middle">stdio</text>
+  <text x="206" y="278" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#58a6ff" text-anchor="middle">JSON-RPC</text>
+
+  <!-- server process container -->
+  <rect x="240" y="80" width="560" height="410" rx="10" fill="#0d1117" stroke="#30363d" stroke-width="1.5"/>
+  <text x="520" y="102" font-family="Arial, Segoe UI, sans-serif" font-size="12" font-weight="bold" fill="#8b949e" text-anchor="middle">ContextVault MCP server process</text>
+
+  <!-- adapter -->
+  <rect x="264" y="118" width="220" height="58" rx="8" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+  <text x="374" y="142" font-family="Arial, Segoe UI, sans-serif" font-size="13" font-weight="bold" fill="#e6edf3" text-anchor="middle">MCP inbound adapter</text>
+  <text x="374" y="160" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">strict schema &#183; shared fail-closed handler</text>
+
+  <!-- use cases -->
+  <rect x="264" y="210" width="220" height="58" rx="8" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+  <text x="374" y="234" font-family="Arial, Segoe UI, sans-serif" font-size="13" font-weight="bold" fill="#e6edf3" text-anchor="middle">Application use cases</text>
+  <text x="374" y="252" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">inspect &#183; prepare &#183; retrieve &#183; verify &#183; stats &#183; purge</text>
+
+  <!-- domain policies -->
+  <rect x="264" y="302" width="220" height="76" rx="8" fill="#161b22" stroke="#bc8cff" stroke-width="1.5"/>
+  <text x="374" y="326" font-family="Arial, Segoe UI, sans-serif" font-size="13" font-weight="bold" fill="#e6edf3" text-anchor="middle">Domain policies</text>
+  <text x="374" y="344" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">workspace authorization &#183; content classification</text>
+  <text x="374" y="358" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">preparation limits &#183; verification &#183; stats</text>
+  <text x="374" y="371" font-family="Arial, Segoe UI, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">depends on nothing</text>
+
+  <!-- internal solid arrows -->
+  <line x1="374" y1="176" x2="374" y2="210" stroke="#58a6ff" stroke-width="2"/>
+  <polygon points="374,210 370,203 378,203" fill="#58a6ff"/>
+  <line x1="374" y1="268" x2="374" y2="302" stroke="#58a6ff" stroke-width="2"/>
+  <polygon points="374,302 370,295 378,295" fill="#58a6ff"/>
+
+  <!-- infrastructure column -->
+  <rect x="540" y="118" width="236" height="58" rx="8" fill="#161b22" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="658" y="142" font-family="Arial, Segoe UI, sans-serif" font-size="13" font-weight="bold" fill="#e6edf3" text-anchor="middle">Authorized file reader</text>
+  <text x="658" y="160" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">canonicalization &#183; containment &#183; bounded reads</text>
+
+  <rect x="540" y="210" width="236" height="58" rx="8" fill="#161b22" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="658" y="234" font-family="Arial, Segoe UI, sans-serif" font-size="13" font-weight="bold" fill="#e6edf3" text-anchor="middle">Cryptographic capability handling</text>
+  <text x="658" y="252" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">SHA-256 digests &#183; raw tokens never stored</text>
+
+  <rect x="540" y="302" width="236" height="58" rx="8" fill="#161b22" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="658" y="326" font-family="Arial, Segoe UI, sans-serif" font-size="13" font-weight="bold" fill="#e6edf3" text-anchor="middle">In-memory vault</text>
+  <text x="658" y="344" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">envelopes &#183; grants &#183; counters &#183; TTL &#183; ceilings</text>
+
+  <!-- dashed implements-port arrows -->
+  <line x1="540" y1="147" x2="484" y2="232" stroke="#3fb950" stroke-width="1.2" stroke-dasharray="5 4"/>
+  <line x1="540" y1="239" x2="484" y2="239" stroke="#3fb950" stroke-width="1.2" stroke-dasharray="5 4"/>
+  <line x1="540" y1="331" x2="484" y2="246" stroke="#3fb950" stroke-width="1.2" stroke-dasharray="5 4"/>
+  <text x="512" y="200" font-family="Arial, Segoe UI, sans-serif" font-size="9" fill="#3fb950" text-anchor="middle">implement ports</text>
+
+  <!-- reader to filesystem -->
+  <path d="M 658 176 H 788 V 412 H 658 V 428" fill="none" stroke="#3fb950" stroke-width="1.8"/>
+  <polygon points="658,428 654,421 662,421" fill="#3fb950"/>
+
+  <rect x="524" y="428" width="268" height="46" rx="8" fill="#161b22" stroke="#3fb950" stroke-width="1.2"/>
+  <text x="658" y="448" font-family="Arial, Segoe UI, sans-serif" font-size="12" font-weight="bold" fill="#e6edf3" text-anchor="middle">Explicitly authorized workspace roots</text>
+  <text x="658" y="464" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">local filesystem &#183; read-only access &#183; fixed at startup</text>
+
+  <!-- output boundary -->
+  <rect x="264" y="404" width="220" height="70" rx="8" fill="#161b22" stroke="#d29922" stroke-width="1.5"/>
+  <text x="374" y="428" font-family="Arial, Segoe UI, sans-serif" font-size="12" font-weight="bold" fill="#e6edf3" text-anchor="middle">Result / safe error boundary</text>
+  <text x="374" y="446" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">retrieve only: bounded exact excerpts</text>
+  <text x="374" y="460" font-family="Arial, Segoe UI, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">errors: no paths, secrets, tokens, or content</text>
+  <line x1="374" y1="378" x2="374" y2="404" stroke="#d29922" stroke-width="1.8" stroke-dasharray="5 4"/>
+
+  <!-- prohibited zone -->
+  <rect x="820" y="118" width="96" height="356" rx="10" fill="#0d1117" stroke="#f85149" stroke-width="1.2" stroke-dasharray="6 4"/>
+  <text x="868" y="150" font-family="Arial, Segoe UI, sans-serif" font-size="11" font-weight="bold" fill="#f85149" text-anchor="middle">Prohibited</text>
+  <text x="868" y="168" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#f85149" text-anchor="middle">by design</text>
+  <text x="868" y="210" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">network</text>
+  <text x="868" y="224" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">listener</text>
+  <line x1="836" y1="240" x2="900" y2="240" stroke="#f85149" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="868" y="280" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">durable</text>
+  <text x="868" y="294" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">persistence</text>
+  <line x1="836" y1="310" x2="900" y2="310" stroke="#f85149" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="868" y="350" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">file writes</text>
+  <line x1="836" y1="366" x2="900" y2="366" stroke="#f85149" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="868" y="406" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">command</text>
+  <text x="868" y="420" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">execution</text>
+
+  <!-- startup composition note -->
+  <text x="470" y="516" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#6e7681" text-anchor="middle">workspace roots are declared once at startup via --workspace-root and stay fixed for the process lifetime; memory clears on exit</text>
+
+  <!-- legend -->
+  <line x1="290" y1="560" x2="330" y2="560" stroke="#58a6ff" stroke-width="2"/>
+  <text x="338" y="564" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e">runtime call</text>
+  <line x1="440" y1="560" x2="480" y2="560" stroke="#3fb950" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="488" y="564" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e">implements port / data access</text>
+  <line x1="290" y1="584" x2="330" y2="584" stroke="#d29922" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="338" y="588" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e">output boundary</text>
+  <line x1="440" y1="584" x2="480" y2="584" stroke="#f85149" stroke-width="1.2" stroke-dasharray="6 4"/>
+  <text x="488" y="588" font-family="Arial, Segoe UI, sans-serif" font-size="10" fill="#8b949e">prohibited zone (absent by design)</text>
+</svg>

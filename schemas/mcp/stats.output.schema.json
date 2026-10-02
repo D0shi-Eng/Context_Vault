@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contextvault.local/schemas/mcp/stats.output.schema.json",
+  "title": "contextvault_stats output",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "ok", "counters", "measuredAt"],
+      "properties": {
+        "schemaVersion": {
+          "$ref": "../domain/common.schema.json#/$defs/schemaVersion"
+        },
+        "ok": {
+          "const": true
+        },
+        "counters": {
+          "$ref": "../domain/common.schema.json#/$defs/sessionCounters"
+        },
+        "measuredAt": {
+          "$ref": "../domain/common.schema.json#/$defs/isoTimestamp"
+        }
+      }
+    },
+    {
+      "$ref": "../domain/common.schema.json#/$defs/errorResponse"
+    }
+  ]
+}

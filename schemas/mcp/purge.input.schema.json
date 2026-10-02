@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contextvault.local/schemas/mcp/purge.input.schema.json",
+  "title": "contextvault_purge input",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["operation", "target"],
+      "properties": {
+        "operation": {
+          "const": "preview"
+        },
+        "target": {
+          "$ref": "../domain/common.schema.json#/$defs/purgeTarget"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["operation", "purgeIntentId"],
+      "properties": {
+        "operation": {
+          "const": "execute"
+        },
+        "purgeIntentId": {
+          "$ref": "../domain/common.schema.json#/$defs/purgeIntentId"
+        }
+      }
+    }
+  ]
+}

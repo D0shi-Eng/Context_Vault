@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img">
+  <title>ContextVault — local MCP source access</title>
+  <desc>Development preview. Content-free inspection, capability-gated retrieval, and deterministic integrity verification over local stdio.</desc>
+  <rect width="1280" height="640" fill="#0d1117" />
+  <rect x="32" y="32" width="1216" height="576" rx="28" fill="#111d2c" stroke="#29425d" stroke-width="2" />
+  <g transform="translate(66 62)">
+    <rect width="124" height="124" rx="30" fill="#0d1b2e" stroke="#35b5f0" stroke-width="4" />
+    <circle cx="62" cy="64" r="40" fill="none" stroke="#2b6f9e" stroke-width="4" />
+    <path d="M 72 41 A 28 28 0 1 0 72 87" fill="none" stroke="#35b5f0" stroke-width="10" stroke-linecap="round" />
+    <path d="M 73 46 L 88 83 L 103 46" fill="none" stroke="#8b93f8" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+    <circle cx="109" cy="101" r="5" fill="#3ecf8e" />
+  </g>
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <text x="220" y="123" fill="#e6edf3" font-size="64" font-weight="700">ContextVault</text>
+    <text x="222" y="167" fill="#9cb4cd" font-size="24">Development preview · Apache-2.0</text>
+    <text x="72" y="262" fill="#e6edf3" font-size="34" font-weight="600">Controlled source access for AI clients</text>
+    <text x="72" y="307" fill="#a9bfd6" font-size="25">Content-free inspection · Capability-gated retrieval</text>
+    <text x="72" y="347" fill="#a9bfd6" font-size="25">Deterministic integrity verification · Local MCP over stdio</text>
+    <text x="1208" y="424" direction="rtl" text-anchor="start" fill="#e6edf3" font-size="31">وصول منضبط إلى المصادر لعملاء الذكاء الاصطناعي</text>
+    <text x="1208" y="473" direction="rtl" text-anchor="start" fill="#a9bfd6" font-size="25">فحص دون كشف المحتوى واسترجاع مشروط بالصلاحية</text>
+    <rect x="72" y="523" width="335" height="48" rx="12" fill="#122d42" stroke="#35b5f0" />
+    <text x="239" y="554" text-anchor="middle" fill="#73d4ff" font-size="21">Six tools · Explicit workspace roots</text>
+    <text x="1208" y="554" direction="rtl" text-anchor="start" fill="#a9bfd6" font-size="23">نسخة تطويرية · التثبيت من المصدر</text>
+  </g>
+</svg>

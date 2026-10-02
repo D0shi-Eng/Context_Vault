@@ -1,0 +1,76 @@
+# Dependencies and build output
+node_modules/
+dist/
+build/
+coverage/
+.cache/
+.turbo/
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.jks
+*.keystore
+credentials.json
+secrets.json
+
+# Local ContextVault data
+.contextvault/
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Logs and diagnostics
+*.log
+logs/
+crash-reports/
+
+# Editors and operating systems
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Test and fuzz artifacts
+test-results/
+fuzz-artifacts/
+corpus-generated/
+
+# Package and release artifacts
+*.tgz
+*.zip
+*.tar.gz
+sbom-generated/
+# Dependency and package-manager state
+node_modules/
+.pnpm-store/
+.stryker-tmp/
+.verification/
+
+# Build and verification artifacts
+artifacts/
+coverage/
+dist/
+reports/
+mutation/
+survivor-remediation-r2/
+docs/reviews/
+.workbuddy-ai/
+/null
+
+# Local environment files
+.env
+.env.*
+!.env.example

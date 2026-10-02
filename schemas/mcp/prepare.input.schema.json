@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contextvault.local/schemas/mcp/prepare.input.schema.json",
+  "title": "contextvault_prepare input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["source"],
+  "properties": {
+    "source": {
+      "$ref": "../domain/common.schema.json#/$defs/sourceRef"
+    },
+    "ttlSeconds": {
+      "type": "integer",
+      "minimum": 60,
+      "maximum": 7200
+    },
+    "retrieval": {
+      "$ref": "../domain/common.schema.json#/$defs/retrievalGrantRequest"
+    }
+  }
+}
